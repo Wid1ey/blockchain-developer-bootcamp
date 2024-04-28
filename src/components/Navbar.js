@@ -22,7 +22,7 @@ const Navbar = () => {
 
   const networkHandler = async (e) => {
     await window.ethereum.request({
-      method: 'wallet_switchEthereumChain',
+      acaV1od: 'wallet_switchEthereumChain',
       params: [{ chainId: e.target.value }],
     })
   }
@@ -30,7 +30,7 @@ const Navbar = () => {
   return(
     <div className='exchange__header grid'>
       <div className='exchange__header--brand flex'>
-        <img src={logo} className="logo" alt="DApp Logo"></img>
+        <img src={logo} className="logo" alt="aca Logo"></img>
         <h1>Quantum aca Exchange</h1>
       </div>
 

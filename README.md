@@ -71,7 +71,7 @@ This is a React application for a blockchain exchange platform. It allows users 
 - React: JavaScript library for building user interfaces.
 - Redux: State management library for managing application state.
 - Web3.js: JavaScript library for interacting with the Ethereum blockchain.
-- MetaMask: Browser extension for interacting with Ethereum dApps.
+- MetaMask: Browser extension for interacting with Ethereum acas.
 - HTML/CSS: Markup and styling for the application.
 
 ## Contributing

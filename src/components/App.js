@@ -43,9 +43,9 @@ function App() {
     })
 
     // Load token smart contracts
-    const DApp = config[chainId].DApp
-    const mETH = config[chainId].mETH
-    await loadTokens(provider, [DApp.address, mETH.address], dispatch)
+    const aca = config[chainId].aca
+    const acaV1 = config[chainId].acaV1
+    await loadTokens(provider, [aca.address, acaV1.address], dispatch)
 
     // Load exchange smart contract
     const exchangeConfig = config[chainId].exchange

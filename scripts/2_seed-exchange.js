@@ -18,11 +18,11 @@ async function main() {
   console.log("Using chainId:", chainId)
 
   // Fetch deployed tokens
-  const DApp = await ethers.getContractAt('Token', config[chainId].DApp.address)
-  console.log(`Dapp Token fetched: ${DApp.address}\n`)
+  const aca = await ethers.getContractAt('Token', config[chainId].aca.address)
+  console.log(`aca Token fetched: ${aca.address}\n`)
 
-  const mETH = await ethers.getContractAt('Token', config[chainId].mETH.address)
-  console.log(`mETH Token fetched: ${mETH.address}\n`)
+  const acaV1 = await ethers.getContractAt('Token', config[chainId].acaV1.address)
+  console.log(`acaV1 Token fetched: ${acaV1.address}\n`)
 
   const mDAI = await ethers.getContractAt('Token', config[chainId].mDAI.address)
   console.log(`mDAI Token fetched: ${mDAI.address}\n`)
@@ -36,9 +36,9 @@ async function main() {
   const receiver = accounts[1]
   let amount = tokens(10000)
 
-  // user1 transfers 10,000 mETH...
+  // user1 transfers 10,000 acaV1...
   let transaction, result
-  transaction = await mETH.connect(sender).transfer(receiver.address, amount)
+  transaction = await acaV1.connect(sender).transfer(receiver.address, amount)
   console.log(`Transferred ${amount} tokens from ${sender.address} to ${receiver.address}\n`)
 
   // Set up exchange users
@@ -46,23 +46,23 @@ async function main() {
   const user2 = accounts[1]
   amount = tokens(10000)
 
-  // user1 approves 10,000 Dapp...
-  transaction = await DApp.connect(user1).approve(exchange.address, amount)
+  // user1 approves 10,000 aca...
+  transaction = await aca.connect(user1).approve(exchange.address, amount)
   await transaction.wait()
   console.log(`Approved ${amount} tokens from ${user1.address}`)
 
-  // user1 deposits 10,000 DApp...
-  transaction = await exchange.connect(user1).depositToken(DApp.address, amount)
+  // user1 deposits 10,000 aca...
+  transaction = await exchange.connect(user1).depositToken(aca.address, amount)
   await transaction.wait()
   console.log(`Deposited ${amount} Ether from ${user1.address}\n`)
 
-  // User 2 Approves mETH
-  transaction = await mETH.connect(user2).approve(exchange.address, amount)
+  // User 2 Approves acaV1
+  transaction = await acaV1.connect(user2).approve(exchange.address, amount)
   await transaction.wait()
   console.log(`Approved ${amount} tokens from ${user2.address}`)
 
-  // User 2 Deposits mETH
-  transaction = await exchange.connect(user2).depositToken(mETH.address, amount)
+  // User 2 Deposits acaV1
+  transaction = await exchange.connect(user2).depositToken(acaV1.address, amount)
   await transaction.wait()
   console.log(`Deposited ${amount} tokens from ${user2.address}\n`)
 
@@ -72,7 +72,7 @@ async function main() {
 
   // User 1 makes order to get tokens
   let orderId
-  transaction = await exchange.connect(user1).makeOrder(mETH.address, tokens(100), DApp.address, tokens(5))
+  transaction = await exchange.connect(user1).makeOrder(acaV1.address, tokens(100), aca.address, tokens(5))
   result = await transaction.wait()
   console.log(`Made order from ${user1.address}`)
 
@@ -90,7 +90,7 @@ async function main() {
   //
 
   // User 1 makes order
-  transaction = await exchange.connect(user1).makeOrder(mETH.address, tokens(100), DApp.address, tokens(10))
+  transaction = await exchange.connect(user1).makeOrder(acaV1.address, tokens(100), aca.address, tokens(10))
   result = await transaction.wait()
   console.log(`Made order from ${user1.address}`)
 
@@ -104,7 +104,7 @@ async function main() {
   await wait(1)
 
   // User 1 makes another order
-  transaction = await exchange.makeOrder(mETH.address, tokens(50), DApp.address, tokens(15))
+  transaction = await exchange.makeOrder(acaV1.address, tokens(50), aca.address, tokens(15))
   result = await transaction.wait()
   console.log(`Made order from ${user1.address}`)
 
@@ -118,7 +118,7 @@ async function main() {
   await wait(1)
 
   // User 1 makes final order
-  transaction = await exchange.connect(user1).makeOrder(mETH.address, tokens(200), DApp.address, tokens(20))
+  transaction = await exchange.connect(user1).makeOrder(acaV1.address, tokens(200), aca.address, tokens(20))
   result = await transaction.wait()
   console.log(`Made order from ${user1.address}`)
 
@@ -137,7 +137,7 @@ async function main() {
 
   // User 1 makes 10 orders
   for(let i = 1; i <= 10; i++) {
-    transaction = await exchange.connect(user1).makeOrder(mETH.address, tokens(10 * i), DApp.address, tokens(10))
+    transaction = await exchange.connect(user1).makeOrder(acaV1.address, tokens(10 * i), aca.address, tokens(10))
     result = await transaction.wait()
 
     console.log(`Made order from ${user1.address}`)
@@ -148,7 +148,7 @@ async function main() {
 
   // User 2 makes 10 orders
   for (let i = 1; i <= 10; i++) {
-    transaction = await exchange.connect(user2).makeOrder(DApp.address, tokens(10), mETH.address, tokens(10 * i))
+    transaction = await exchange.connect(user2).makeOrder(aca.address, tokens(10), acaV1.address, tokens(10 * i))
     result = await transaction.wait()
 
     console.log(`Made order from ${user2.address}`)
